@@ -1,8 +1,8 @@
 package corejava;
 /*
-Author : Noufal MC
-Date   : 20/01/2022
-
+@ Author : Noufal MC
+@ Date   : 20/01/2022
+  This class provide structure of the contact book
 * */
 public class Person {
     /*
@@ -11,7 +11,7 @@ public class Person {
     * */
     private static String firstName,lastName,address,city,state,phoneNumber;
     private static int zip;
-    Person(String firstName,String lastName,String address,String city,String state,String phoneNumber)
+    Person(String firstName,String lastName,String address,String city,String state,String phoneNumber,int zip)
     {
        this.firstName=firstName;
        this.lastName=lastName;
@@ -19,6 +19,7 @@ public class Person {
        this.city=city;
        this.state=state;
        this.phoneNumber=phoneNumber;
+       this.zip=zip;
     }
     public void setFirstName(String firstName)
     {
