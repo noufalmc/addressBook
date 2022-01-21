@@ -43,7 +43,7 @@ public class Person {
     {
         this.city=city;
     }
-    public String city()
+    public String getCity()
     {
         return this.city;
     }
@@ -86,5 +86,11 @@ public class Person {
     public String getEmail()
     {
         return this.email;
+    }
+    public String toString()
+    {
+        return (" First Name :"+this.getFirstName()+" Last Name :"+this.getLastName()+" Email"+this.getEmail()+
+                "Address:"+this.getAddress()+"City:"+this.getCity()+
+                "State:"+this.getState()+"Zip:"+this.getZip()+"Mobile:"+this.getPhoneNumber());
     }
 }

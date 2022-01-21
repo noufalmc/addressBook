@@ -114,7 +114,6 @@ public class Operation
         sc.nextLine();
         System.out.println("Enter The First Name");
         firstName=sc.nextLine();
-        System.out.println("First name is "+addressBook.get(0).getFirstName());
         if(addressBook.get(0).getFirstName().equals(firstName))
         {
             return true;
@@ -122,5 +121,28 @@ public class Operation
 
             return false;
 
+    }
+    public void deleteContacts()
+    {
+        if(contactIsPresent())
+        {
+            addressBook.remove(0);
+            System.out.println("Item Removed");
+        }
+        else
+        {
+            System.out.println("Item Not found");
+        }
+    }
+    public void display()
+    {
+        if(addressBook.size()>0)
+        {
+            System.out.println(addressBook.get(0));
+        }
+        else
+        {
+            System.out.println("No data found");
+        }
     }
 }

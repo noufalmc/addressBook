@@ -13,10 +13,12 @@ public class Runner {
     public static int choice=1;
     public static void menu()
     {
-        while (choice<3)
+        while (choice<5)
         {
             System.out.println("Select the Choices\n" +
                     "[1] Add Contacts\n" + "[2] Edit Contacts\n"+
+                    "[3] Delete Contacts\n"+
+                    "[4] Display \n"+
                     "[ ] Any press for exit");
             choice = sc.nextInt();
             switch (choice)
@@ -26,6 +28,12 @@ public class Runner {
                     break;
                 case 2:
                     op.editContacts();
+                    break;
+                case 3:
+                    op.deleteContacts();
+                    break;
+                case 4:
+                    op.display();
                     break;
             }
         }
