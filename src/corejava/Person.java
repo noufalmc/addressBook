@@ -9,9 +9,10 @@ public class Person {
     * Declaring Variable Required for Address Book
     * Used getter and setter
     * */
-    private  String firstName,lastName,address,city,state,phoneNumber,email;
+    private  String firstName,lastName,address,city,state,email;
     private  int zip;
-    Person(String firstName,String lastName,String address,String email,String city,String state,String phoneNumber,int zip)
+    long phoneNumber;
+    Person(String firstName,String lastName,String address,String email,String city,String state,long phoneNumber,int zip)
     {
        this.firstName=firstName;
        this.lastName=lastName;
@@ -71,11 +72,11 @@ public class Person {
     {
         return this.state;
     }
-    public void  setPhoneNumber(String phoneNumber)
+    public void  setPhoneNumber(long phoneNumber)
     {
         this.phoneNumber=phoneNumber;
     }
-    public String getPhoneNumber()
+    public long getPhoneNumber()
     {
         return this.phoneNumber;
     }
