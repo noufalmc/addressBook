@@ -73,9 +73,14 @@ public class AddressBook {
     long phoneNumber;
     //input
         System.out.println("Enter First Name");
-    firstName =sc.next();
+        firstName =sc.next();
         System.out.println("Enter Last Name");
-    lastName =sc.next();
+        lastName =sc.next();
+        if(existOrNot(firstName,lastName))
+        {
+            System.out.println("The Contact already Exist!!!!!");
+            return;
+        }
         System.out.println("Enter Address");
     address =sc.next();
         System.out.println("Enter City");
@@ -240,5 +245,15 @@ public class AddressBook {
         {
             System.out.println("Item Not found");
         }
+    }
+    public boolean existOrNot(String firstName,String lastName)
+    {
+        for(int i=0;i<addressBook.size();i++)
+        if(Objects.equals(firstName,addressBook.get(i).getFirstName()) &&
+                Objects.equals(lastName,addressBook.get(i).getLastName()) )
+        {
+            return true;
+        }
+        return false;
     }
 }
