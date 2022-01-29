@@ -1,3 +1,8 @@
+/**
+ * @author :Noufal mc
+ * date:22/01/22
+ * Multiple address book system
+ * */
 package corejava;
 
 import java.util.HashMap;
@@ -67,6 +72,10 @@ class addressBookCollection
         if(!existOrNot(name))
         {
             addressBook.get(name).operations(addressBook.get(name));
+        }
+        else
+        {
+            System.out.println("Diary Name Not Found!!!!");
         }
 
     }

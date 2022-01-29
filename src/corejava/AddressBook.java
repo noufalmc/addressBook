@@ -50,6 +50,9 @@ public class AddressBook {
                 case 4:
                     deleteContacts();
                     break;
+                case 5:
+                    System.out.println("Thank You For Using "+getBookName());
+                    return;
                 default:
                     System.exit(0);
                     break;
