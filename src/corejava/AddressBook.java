@@ -5,6 +5,10 @@ package corejava;
  * Create Multiple Addressbook for store contacts
  *
 **/
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.lang.*;
 import java.util.function.Consumer;
@@ -15,6 +19,7 @@ import static java.util.stream.Collectors.groupingBy;
 public class AddressBook {
     private String bookName;//Decleration for bookname
     private ArrayList<Person> addressBook;//Decleration of Contactlist
+    public static String txtFile="C:\\Users\\DELL\\IdeaProjects\\AddressBook\\files\\addressBook.txt";
     int options;
     Scanner sc = new Scanner(System.in);
 
@@ -32,7 +37,7 @@ public class AddressBook {
      * Operation function provoide operation Menu
      * @param book
      */
-    public void operations(AddressBook book) {
+    public void operations(AddressBook book) throws IOException {
         while (true) {
             System.out.println("Enter Your Choice\n" +
                     "[1] Add Contact\n" +
@@ -115,8 +120,7 @@ public class AddressBook {
      * take input from user
      * save into contact book
      */
-    public void addcontact()
-{
+    public void addcontact() throws IOException {
     //variable declaration
     String firstName, lastName, address, city, state, email;
     int zip;
@@ -146,14 +150,14 @@ public class AddressBook {
     Person contact = new Person(firstName, lastName, address,email, city, state,phoneNumber,zip);
         System.out.println("Contact created!!!"); //contact created
         addressBook.add(contact);
+        fileWriter();
         System.out.println("Added Contact Successfully");// contact added
 }
 
     /**
      * This method display Contact arrayList
      */
-    public  void displayContact()
-    {
+    public  void displayContact() throws IOException {
         for (int i=0;i<addressBook.size();i++)
         {
             System.out.println("FirstName = "+addressBook.get(i).getFirstName());
@@ -165,6 +169,17 @@ public class AddressBook {
             System.out.println("Email = "+addressBook.get(i).getEmail());
             System.out.println("Phone = "+addressBook.get(i).getPhoneNumber());
         }
+        System.out.println("Read from File");
+        BufferedReader br = new BufferedReader(new FileReader(txtFile));
+
+        try {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } finally {
+            br.close();
+        }
     }
     /**
      * method to update contact in Address Book
@@ -174,8 +189,7 @@ public class AddressBook {
      * it shows the updated value
      *
      */
-    public void editContact()
-    {
+    public void editContact() throws IOException {
         //variable declaration
         String firstName, lastName, address, city, state, email;
         int zip;
@@ -247,11 +261,27 @@ public class AddressBook {
                     addressBook.get(presentOrNot).setZip(zip);
                     System.out.println("UPADTED PINCODE "+zip);
             }
+            fileWriter();
         }
         else
         {
             System.out.println("Contact Not Found");
         }
+    }
+    public void fileWriter() throws IOException {
+        StringBuffer addressBookTxtFile = new StringBuffer();
+        FileWriter fw=new FileWriter(txtFile);
+        BufferedWriter bw=new BufferedWriter(fw);
+        addressBook.forEach(i-> {
+            String txt = i.toString();
+            addressBookTxtFile.append(txt);
+        });
+        try {
+            Files.write(Path.of(txtFile),addressBookTxtFile.toString().getBytes()); //Read File
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
     /**
      * method check the given contact exist or not

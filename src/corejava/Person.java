@@ -89,4 +89,17 @@ public class Person {
         return this.email;
     }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", email='" + email + '\'' +
+                ", zip=" + zip +
+                ", phoneNumber=" + phoneNumber +
+                '}';
+    }
 }

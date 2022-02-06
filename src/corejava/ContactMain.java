@@ -5,6 +5,7 @@
  * */
 package corejava;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,7 @@ class addressBookCollection
     public static Map<String, List<Person>> stateDictionary = new HashMap<>();
     static Scanner sc=new Scanner(System.in);
     String name;
-    public void menu()
-    {
+    public void menu() throws IOException {
         int option;
         while(true)
         {
@@ -27,8 +27,8 @@ class addressBookCollection
                     "[2] Display Diary\n" +
                     "[3] Opearte with Diary\n" +
                     "[4] Search Person"+
-                    "[5] Count The City\n"+
-                    "[5] Count The State\n"+
+                    "[5] Count The City"+
+                    "[5] Count The State"+
                     "[] Any Number Press For Exit\n");
             option=sc.nextInt();
            switch (option)
@@ -112,8 +112,7 @@ class addressBookCollection
       }
       return true;
     }
-    public void operateWithBook()
-    {
+    public void operateWithBook() throws IOException {
         System.out.println("Enter The DiaryName");
         name= sc.next();
         if(!existOrNot(name))
@@ -170,8 +169,7 @@ class addressBookCollection
     }
 }
 public class ContactMain {
-    public static  void main(String args[])
-    {
+    public static  void main(String args[]) throws IOException {
         System.out.println("Welcome To Address Book!!!");
         addressBookCollection ad=new addressBookCollection();
         ad.menu();
