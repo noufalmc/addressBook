@@ -35,11 +35,12 @@ public class AddressBook {
     public void operations(AddressBook book) {
         while (true) {
             System.out.println("Enter Your Choice\n" +
-                    "[1] Add Contact" +
-                    "[2] Display contact" +
-                    "[3] Edit Contact" +
-                    "[4] Delete Contact" +
-                    "[5] Back To Main Menu");
+                    "[1] Add Contact\n" +
+                    "[2] Display contact\n" +
+                    "[3] Edit Contact\n" +
+                    "[4] Delete Contact\n" +
+                    "[5] Back To Main Menu\n"+
+                    "[6] Sort By Contact");
             options = sc.nextInt();
             switch (options) {
                 case 1:
@@ -57,11 +58,22 @@ public class AddressBook {
                 case 5:
                     System.out.println("Thank You For Using "+getBookName());
                     return;
+                case 6:
+                    sortByName();
+                    break;
                 default:
                     System.exit(0);
                     break;
             }
         }
+    }
+
+    private void sortByName() {
+        List<Person> sortByName=new ArrayList<>();
+        sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getFirstName))
+                .collect(Collectors.toList());
+        System.out.println("Sorted Array is");
+        sortByName.forEach(i->System.out.println(i.getFirstName()));
     }
 
     /**
@@ -285,11 +297,23 @@ public class AddressBook {
         List<Person> streamList=addressBook.stream().filter(contact -> state.equals(contact.getState())).collect(Collectors.toList());
         streamList.forEach(i->System.out.println(i.getFirstName()+' '+i.getLastName()));
     }
+
+    /**
+     * Group the city
+     * By using groupingby method
+     * @return
+     */
     public Map<String,List<Person>> getMapCity()
     {
       return addressBook.stream().collect(groupingBy(contact -> contact.getCity()));
 
     }
+
+    /**
+     * Grouping the states
+     * by using groupingby method
+     * @return
+     */
     public Map<String,List<Person>> getMapState()
     {
         return addressBook.stream().collect(groupingBy(contact -> contact.getState()));
