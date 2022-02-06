@@ -6,10 +6,13 @@ package corejava;
  *
 **/
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import java.lang.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
 public class AddressBook {
     private String bookName;//Decleration for bookname
     private ArrayList<Person> addressBook;//Decleration of Contactlist
@@ -257,5 +260,28 @@ public class AddressBook {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Method is used for Search The Contact by city
+     * @param city
+     * Take Inputs From User
+     * Print the result list
+     */
+    public void searchByCity(String city)
+    {
+        List<Person> streamList=addressBook.stream().filter(contact ->city.equals(contact.getCity())).collect(Collectors.toList());
+        streamList.forEach(i->System.out.println(i.getFirstName()+' '+i.getLastName()));
+    }
+
+    /**
+     * Methode display the macthich state persons
+     * take input from user state name
+     * @param state
+     */
+    public void searchByState(String state)
+    {
+        List<Person> streamList=addressBook.stream().filter(contact -> state.equals(contact.getState())).collect(Collectors.toList());
+        streamList.forEach(i->System.out.println(i.getFirstName()+' '+i.getLastName()));
     }
 }

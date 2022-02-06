@@ -22,6 +22,7 @@ class addressBookCollection
                     "[1] Add Diary\n" +
                     "[2] Display Diary\n" +
                     "[3] Opearte with Diary\n" +
+                    "[4] Search Person"+
                     "[] Any Number Press For Exit\n");
             option=sc.nextInt();
            switch (option)
@@ -35,6 +36,9 @@ class addressBookCollection
                case 3:
                    operateWithBook();
                    break;
+               case 4:
+                   searchByPesron();
+                   break;
                default:
                    exit(0);
                    break;
@@ -42,6 +46,37 @@ class addressBookCollection
         }
 
     }
+
+    /**
+     * Method is used for search the person by city or state
+     * take input from user for option
+     */
+    private void searchByPesron()
+    {
+
+        System.out.println("Enter Your choice [1]City [2]State");
+        int choice= sc.nextInt();
+        switch (choice)
+        {
+            case 1:
+                System.out.println("Enter City Name");
+                String city=sc.next();
+                for (AddressBook address:addressBook.values())
+                {
+                    address.searchByCity(city);
+                }
+                break;
+            case 2:
+                System.out.println("Enter State Name");
+                String state=sc.next();
+                for (AddressBook address:addressBook.values())
+                {
+                    address.searchByState(state);
+                }
+                break;
+        }
+    }
+
     public void addDiary()
     {
 
