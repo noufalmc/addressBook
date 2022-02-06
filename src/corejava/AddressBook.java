@@ -59,7 +59,14 @@ public class AddressBook {
                     System.out.println("Thank You For Using "+getBookName());
                     return;
                 case 6:
-                    sortByName();
+                    System.out.println("Enter Option wants to Sort\n" +
+                            "[1] Name" +
+                            "[2] State" +
+                            "[3] City" +
+                            "[4] Pincode");
+                    int sortOption=sc.nextInt();
+
+                    sortBy(sortOption);
                     break;
                 default:
                     System.exit(0);
@@ -68,12 +75,39 @@ public class AddressBook {
         }
     }
 
-    private void sortByName() {
+    private void sortBy(int option) {
         List<Person> sortByName=new ArrayList<>();
-        sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getFirstName))
-                .collect(Collectors.toList());
-        System.out.println("Sorted Array is");
-        sortByName.forEach(i->System.out.println(i.getFirstName()));
+        switch (option)
+        {
+            case 1:
+                sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getFirstName))
+                        .collect(Collectors.toList());
+                System.out.println("Sorted Array is");
+                sortByName.forEach(i->System.out.println(i.getFirstName()));
+                break;
+            case 2:
+                sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getState))
+                        .collect(Collectors.toList());
+                System.out.println("Sorted Array is");
+                sortByName.forEach(i->System.out.println(i.getFirstName()+"="+i.getState()));
+                break;
+            case 3:
+                sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getCity))
+                        .collect(Collectors.toList());
+                System.out.println("Sorted Array is");
+                sortByName.forEach(i->System.out.println(i.getFirstName()+"="+i.getCity()));
+                break;
+            case 4:
+                sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getZip))
+                        .collect(Collectors.toList());
+
+                System.out.println("Sorted Array is");
+                sortByName.forEach(i->System.out.println(i.getFirstName()+'='+i.getZip()));
+                break;
+
+        }
+
+
     }
 
     /**
