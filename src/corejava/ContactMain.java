@@ -6,11 +6,15 @@
 package corejava;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import static java.lang.System.exit;
 class addressBookCollection
 {
     HashMap<String,AddressBook>addressBook=new HashMap();
+    public static Map<String, List<Person>> cityDictionary = new HashMap<>();
+    public static Map<String, List<Person>> stateDictionary = new HashMap<>();
     static Scanner sc=new Scanner(System.in);
     String name;
     public void menu()
@@ -23,6 +27,8 @@ class addressBookCollection
                     "[2] Display Diary\n" +
                     "[3] Opearte with Diary\n" +
                     "[4] Search Person"+
+                    "[5] Count The City\n"+
+                    "[5] Count The State\n"+
                     "[] Any Number Press For Exit\n");
             option=sc.nextInt();
            switch (option)
@@ -38,6 +44,12 @@ class addressBookCollection
                    break;
                case 4:
                    searchByPesron();
+                   break;
+               case 5:
+                   getCountCity();
+                   break;
+               case 6:
+                   getCountState();
                    break;
                default:
                    exit(0);
@@ -119,6 +131,42 @@ class addressBookCollection
         for (String key: addressBook.keySet()){
             System.out.println(key +" = "+addressBook.get(key)+"\n");
         }
+    }
+
+    /**
+     * Count By City
+     */
+    public void getCountCity()
+    {
+        Map<String, List<Person>> dictMap = new HashMap<>();
+        for (AddressBook book : addressBook.values()) {
+            book.getMapCity().forEach((key, value) -> dictMap.merge(key, value,
+                    (state, contact) -> {
+                        state.addAll(contact);
+                        return state;
+                    }));
+        }
+        cityDictionary = dictMap;
+        cityDictionary.forEach(
+                ((key, value) -> System.out.println(key + " " + value + " Total count is: " + value.size())));
+    }
+
+    /**
+     * Count By state
+     */
+    public void getCountState()
+    {
+        Map<String, List<Person>> dictMap = new HashMap<>();
+        for (AddressBook book : addressBook.values()) {
+            book.getMapCity().forEach((key, value) -> dictMap.merge(key, value,
+                    (state, contact) -> {
+                        state.addAll(contact);
+                        return state;
+                    }));
+        }
+        stateDictionary = dictMap;
+        stateDictionary.forEach(
+                ((key, value) -> System.out.println(key + " " + value + " Total count is: " + value.size())));
     }
 }
 public class ContactMain {

@@ -285,6 +285,15 @@ public class AddressBook {
         List<Person> streamList=addressBook.stream().filter(contact -> state.equals(contact.getState())).collect(Collectors.toList());
         streamList.forEach(i->System.out.println(i.getFirstName()+' '+i.getLastName()));
     }
+    public Map<String,List<Person>> getMapCity()
+    {
+      return addressBook.stream().collect(groupingBy(contact -> contact.getCity()));
 
-    
+    }
+    public Map<String,List<Person>> getMapState()
+    {
+        return addressBook.stream().collect(groupingBy(contact -> contact.getState()));
+    }
+
+
 }
