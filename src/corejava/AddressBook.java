@@ -8,6 +8,8 @@ package corejava;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
+import java.lang.*;
+import java.util.function.Consumer;
 public class AddressBook {
     private String bookName;//Decleration for bookname
     private ArrayList<Person> addressBook;//Decleration of Contactlist
@@ -76,7 +78,7 @@ public class AddressBook {
         firstName =sc.next();
         System.out.println("Enter Last Name");
         lastName =sc.next();
-        if(existOrNot(firstName,lastName))
+        if(existOrNot(firstName + lastName))
         {
             System.out.println("The Contact already Exist!!!!!");
             return;
@@ -246,14 +248,14 @@ public class AddressBook {
             System.out.println("Item Not found");
         }
     }
-    public boolean existOrNot(String firstName,String lastName)
+    public boolean existOrNot(String name)
     {
-        for(int i=0;i<addressBook.size();i++)
-        if(Objects.equals(firstName,addressBook.get(i).getFirstName()) &&
-                Objects.equals(lastName,addressBook.get(i).getLastName()) )
+        Person stream=addressBook.stream().filter(
+                contact -> name.equals(contact.getFirstName()+contact.getLastName())).findAny().orElse(null);
+        if(stream==null)
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

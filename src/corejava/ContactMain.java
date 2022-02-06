@@ -44,9 +44,9 @@ class addressBookCollection
     }
     public void addDiary()
     {
-        sc.nextLine();
+
         System.out.println("Enter Diary Name");
-        name=sc.nextLine();
+        name=sc.next();
         if(existOrNot(name)) {
             AddressBook ad = new AddressBook(name);
             addressBook.put(name,ad);
