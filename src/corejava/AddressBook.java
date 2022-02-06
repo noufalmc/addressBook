@@ -5,16 +5,23 @@ package corejava;
  * Create Multiple Addressbook for store contacts
  *
 **/
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.lang.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
+import java.io.IOException;
 import static java.util.stream.Collectors.groupingBy;
 
 public class AddressBook {
     private String bookName;//Decleration for bookname
     private ArrayList<Person> addressBook;//Decleration of Contactlist
+    public static String txtFile="C:\\Users\\DELL\\IdeaProjects\\AddressBook\\files\\addressBook.txt";
+    public static String csvFile="C:\\Users\\DELL\\IdeaProjects\\AddressBook\\files\\addressBook.csv";
     int options;
     Scanner sc = new Scanner(System.in);
 
@@ -32,7 +39,7 @@ public class AddressBook {
      * Operation function provoide operation Menu
      * @param book
      */
-    public void operations(AddressBook book) {
+    public void operations(AddressBook book) throws IOException {
         while (true) {
             System.out.println("Enter Your Choice\n" +
                     "[1] Add Contact\n" +
@@ -59,7 +66,14 @@ public class AddressBook {
                     System.out.println("Thank You For Using "+getBookName());
                     return;
                 case 6:
-                    sortByName();
+                    System.out.println("Enter Option wants to Sort\n" +
+                            "[1] Name" +
+                            "[2] State" +
+                            "[3] City" +
+                            "[4] Pincode");
+                    int sortOption=sc.nextInt();
+
+                    sortBy(sortOption);
                     break;
                 default:
                     System.exit(0);
@@ -68,12 +82,39 @@ public class AddressBook {
         }
     }
 
-    private void sortByName() {
+    private void sortBy(int option) {
         List<Person> sortByName=new ArrayList<>();
-        sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getFirstName))
-                .collect(Collectors.toList());
-        System.out.println("Sorted Array is");
-        sortByName.forEach(i->System.out.println(i.getFirstName()));
+        switch (option)
+        {
+            case 1:
+                sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getFirstName))
+                        .collect(Collectors.toList());
+                System.out.println("Sorted Array is");
+                sortByName.forEach(i->System.out.println(i.getFirstName()));
+                break;
+            case 2:
+                sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getState))
+                        .collect(Collectors.toList());
+                System.out.println("Sorted Array is");
+                sortByName.forEach(i->System.out.println(i.getFirstName()+"="+i.getState()));
+                break;
+            case 3:
+                sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getCity))
+                        .collect(Collectors.toList());
+                System.out.println("Sorted Array is");
+                sortByName.forEach(i->System.out.println(i.getFirstName()+"="+i.getCity()));
+                break;
+            case 4:
+                sortByName=addressBook.stream().sorted(Comparator.comparing(Person::getZip))
+                        .collect(Collectors.toList());
+
+                System.out.println("Sorted Array is");
+                sortByName.forEach(i->System.out.println(i.getFirstName()+'='+i.getZip()));
+                break;
+
+        }
+
+
     }
 
     /**
@@ -81,8 +122,7 @@ public class AddressBook {
      * take input from user
      * save into contact book
      */
-    public void addcontact()
-{
+    public void addcontact() throws IOException {
     //variable declaration
     String firstName, lastName, address, city, state, email;
     int zip;
@@ -112,14 +152,15 @@ public class AddressBook {
     Person contact = new Person(firstName, lastName, address,email, city, state,phoneNumber,zip);
         System.out.println("Contact created!!!"); //contact created
         addressBook.add(contact);
+        fileWriter();
+        String csv=firstName+"-"+lastName+"-"+city+"-"+state+"-"+zip+"-"+email;
+        writeCsv(csv);
         System.out.println("Added Contact Successfully");// contact added
 }
-
     /**
      * This method display Contact arrayList
      */
-    public  void displayContact()
-    {
+    public  void displayContact() throws IOException {
         for (int i=0;i<addressBook.size();i++)
         {
             System.out.println("FirstName = "+addressBook.get(i).getFirstName());
@@ -131,6 +172,49 @@ public class AddressBook {
             System.out.println("Email = "+addressBook.get(i).getEmail());
             System.out.println("Phone = "+addressBook.get(i).getPhoneNumber());
         }
+        System.out.println("Read from File");
+        BufferedReader br = new BufferedReader(new FileReader(txtFile));
+
+        try {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } finally {
+            br.close();
+        }
+        System.out.println("Read From Csv");
+        try {
+            // Create an object of filereader
+            // class with CSV file as a parameter.
+            FileReader fileReader=new FileReader(csvFile);
+            //Create CSV Reader
+            CSVReader csvReader=new CSVReader(fileReader);
+            String line;
+            BufferedReader br1 = new BufferedReader(new FileReader(csvFile));
+            while ((line = br1.readLine()) != null)   //returns a Boolean value
+            {
+                String[] employee = line.split(",");    // use comma as separator
+                System.out.println("Employee [First Name=" + employee[0] + ", Last Name=" + employee[1] + ", Designation=" + employee[2] + ", Contact=" + employee[3] + ", Salary= " + employee[4] + ", City= " + employee[5] +"]");
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * The  write into csv file
+     * appendable
+     * @param string
+     * @throws IOException
+     */
+    public void  writeCsv(String string) throws IOException
+    {
+        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true));
+        String[] data=string.split("-");
+        writer.writeNext(data);
+        writer.close();
     }
     /**
      * method to update contact in Address Book
@@ -140,8 +224,7 @@ public class AddressBook {
      * it shows the updated value
      *
      */
-    public void editContact()
-    {
+    public void editContact() throws IOException {
         //variable declaration
         String firstName, lastName, address, city, state, email;
         int zip;
@@ -213,11 +296,27 @@ public class AddressBook {
                     addressBook.get(presentOrNot).setZip(zip);
                     System.out.println("UPADTED PINCODE "+zip);
             }
+            fileWriter();
         }
         else
         {
             System.out.println("Contact Not Found");
         }
+    }
+    public void fileWriter() throws IOException {
+        StringBuffer addressBookTxtFile = new StringBuffer();
+        FileWriter fw=new FileWriter(txtFile);
+        BufferedWriter bw=new BufferedWriter(fw);
+        addressBook.forEach(i-> {
+            String txt = i.toString();
+            addressBookTxtFile.append(txt);
+        });
+        try {
+            Files.write(Path.of(txtFile),addressBookTxtFile.toString().getBytes()); //Read File
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
     /**
      * method check the given contact exist or not
@@ -286,7 +385,7 @@ public class AddressBook {
     }
 
     /**
-     * Methode display the macthich state persons
+     * Method display the macthich state persons
      * take input from user state name
      * if matches then creates a list
      * then print list
