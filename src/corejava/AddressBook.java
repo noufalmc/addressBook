@@ -5,13 +5,12 @@ package corejava;
  * Create Multiple Addressbook for store contacts
  *
 **/
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 import java.lang.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 public class AddressBook {
     private String bookName;//Decleration for bookname
@@ -277,6 +276,8 @@ public class AddressBook {
     /**
      * Methode display the macthich state persons
      * take input from user state name
+     * if matches then creates a list
+     * then print list
      * @param state
      */
     public void searchByState(String state)
@@ -284,4 +285,6 @@ public class AddressBook {
         List<Person> streamList=addressBook.stream().filter(contact -> state.equals(contact.getState())).collect(Collectors.toList());
         streamList.forEach(i->System.out.println(i.getFirstName()+' '+i.getLastName()));
     }
+
+    
 }
