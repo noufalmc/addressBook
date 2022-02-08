@@ -7,6 +7,9 @@ package corejava;
 **/
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -22,6 +25,7 @@ public class AddressBook {
     private ArrayList<Person> addressBook;//Decleration of Contactlist
     public static String txtFile="C:\\Users\\DELL\\IdeaProjects\\AddressBook\\files\\addressBook.txt";
     public static String csvFile="C:\\Users\\DELL\\IdeaProjects\\AddressBook\\files\\addressBook.csv";
+    public static String jsonFile="C:\\Users\\DELL\\IdeaProjects\\AddressBook\\files\\addressBook.json";
     int options;
     Scanner sc = new Scanner(System.in);
 
@@ -39,7 +43,7 @@ public class AddressBook {
      * Operation function provoide operation Menu
      * @param book
      */
-    public void operations(AddressBook book) throws IOException {
+    public void operations(AddressBook book) throws IOException,ParseException {
         while (true) {
             System.out.println("Enter Your Choice\n" +
                     "[1] Add Contact\n" +
@@ -155,12 +159,13 @@ public class AddressBook {
         fileWriter();
         String csv=firstName+"-"+lastName+"-"+city+"-"+state+"-"+zip+"-"+email;
         writeCsv(csv);
+        writeJson(csv);
         System.out.println("Added Contact Successfully");// contact added
 }
     /**
      * This method display Contact arrayList
      */
-    public  void displayContact() throws IOException {
+    public  void displayContact() throws IOException, ParseException {
         for (int i=0;i<addressBook.size();i++)
         {
             System.out.println("FirstName = "+addressBook.get(i).getFirstName());
@@ -201,8 +206,46 @@ public class AddressBook {
         {
             e.printStackTrace();
         }
+        System.out.println("Read From JSON");
+        try {
+            JSONParser jp = new JSONParser();
+            Object obj = jp.parse(new FileReader(jsonFile));
+            JSONObject jsonObj = (JSONObject) obj;
+            System.out.println("First Name= " + (String) jsonObj.get("First_Name"));
+            System.out.println("Last Name = " + (String) jsonObj.get("Last_Name"));
+            System.out.println("City = " + (String) jsonObj.get("City"));
+            System.out.println("State= " + (String) jsonObj.get("State"));
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * Write into Json
+     *  @param data
+     *  @throws IOException
+     */
+    public void writeJson(String data) throws IOException {
+        FileWriter fw=new FileWriter(jsonFile);
+        String[] array=data.split("-");
+        //Creating a JSONObject object
+        JSONObject jsonObject = new JSONObject();
+        //Inserting key-value pairs into the json object
+        jsonObject.put("First_Name",array[0]);
+        jsonObject.put("Last_Name", array[1]);
+        jsonObject.put("State",array[3]);
+        jsonObject.put("City",array[2]);
+        jsonObject.put("Zip",array[4]);
+        jsonObject.put("Email",array[5]);
+        try {
+            fw.write(jsonObject.toJSONString());
+            fw.close();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
     /**
      * The  write into csv file
      * appendable
